@@ -1,0 +1,15 @@
+{
+  "category": "General Principles",
+  "lessons": [
+    {
+      "date": "2026-01-01",
+      "rule": "Verify before claiming completion",
+      "detail": "After any operation, verify the result before reporting success. Check process status after killing apps, confirm file contents after editing, test functionality after deploying. Never assume success — verify it."
+    },
+    {
+      "date": "2026-01-01",
+      "rule": "Write it down or it never happened",
+      "detail": "Conversation context will be lost. Lessons must be written to persistent files (CLAUDE.md, SKILL.md, lessons/*.json). Only saying 'I'll remember' in conversation = guaranteed to forget next session."
+    }
+  ]
+}
