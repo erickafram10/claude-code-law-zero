@@ -1,9 +1,9 @@
 # Project Instructions
 
 <!--
-  LAW ZERO TEMPLATE — Drop this into your project's CLAUDE.md
+  LAW ZERO v2.0 TEMPLATE — Drop this into your project's CLAUDE.md
+  Key change from v1: Project-scoped scanning by default.
   Customize the sections below for your specific project.
-  The Self-Evolution Mechanism (Law Zero) stays at the top, always.
 -->
 
 ---
@@ -11,6 +11,25 @@
 ## Law Zero: Self-Evolution Mechanism (Highest Priority! Above All Rules!)
 
 **This is the zeroth law of the system. Any upgrade operation must execute this mechanism first.**
+
+### Scope Rules (Most Important!)
+
+**Law Zero has two modes. Project Mode is the default:**
+
+| Mode | Trigger | Scan/Modify Scope | Global Files |
+|------|---------|-------------------|-------------|
+| **Project Mode** (default) | "Run Law Zero on [project]" | Only files in the project directory | **Read-only** |
+| **Global Mode** | "Run global Law Zero" | All projects + global files | Read + Write |
+
+**Project Mode rules:**
+- Only scan and modify files within the target project (SKILL.md, scripts/*, data/*, config/*)
+- Global files (CLAUDE.md, memory, lessons) are **read-only** — read them to check for contradictions, but fix project files, not global ones
+- Different projects may share the same tools but use them differently — never let one project's scan affect another
+
+**Why not always modify global files:**
+- Project A and B might share Playwright, Page Agent, etc., but with different usage patterns
+- Modifying global files during Project A's scan → might break Project B
+- Over multiple rounds → global files get modified back and forth → increasing entropy
 
 ### Trigger Condition
 When ANY feature, skill, script, project, document, or configuration is upgraded or updated,
@@ -22,38 +41,40 @@ When ANY feature, skill, script, project, document, or configuration is upgraded
 - Complete the new version's deployment, modification, or replacement
 
 **Step 2 — Delete the Old (Upgrade = Delete)**
-- **Completely remove** all replaced old-version content, including:
-  - Code and scripts
-  - Configuration files and entries
-  - Documentation descriptions, comments, and examples
-  - Lesson database entries that reference the old version
+- **Completely remove** all replaced old-version content (within scope only)
 - Absolutely no coexistence of old and new versions
-- Clean up across ALL related files
+- **Project Mode**: Only clean files within the project directory
+- **Global Mode**: Can clean all files including CLAUDE.md, memory, lessons
 
-**Step 3 — Global Consistency Scan (Automatic!)**
-- Scan **all related documents and configurations** for content that contradicts, conflicts with, or is outdated by the new version
-- Default scan scope (customize for your project):
+**Step 3 — Consistency Scan**
+- **Project Mode** scan scope (only modifies project files):
+  - Project's `SKILL.md`
+  - Project's `scripts/*`, `data/*`, `config/*`
+  - Reads (but does NOT write) global files to check for contradictions
+  - If project files contradict global → fix project files, not global
+- **Global Mode** scan scope (can modify all files):
   - `CLAUDE.md` — Main project instructions
-  - `memory/*.md` — Persistent memory files (if using auto-memory)
-  - `lessons/*.json` — Lesson database files
-  - `skills/*/SKILL.md` — Skill documentation
-  - Any other instruction files your project uses
-- Found a contradiction → **Fix it immediately**, no need to ask the user
-- Found an outdated reference → **Delete or update it immediately**
+  - Memory files — Persistent memory
+  - Lesson files — Learned patterns
+  - All `SKILL.md` files — Skill documentation
+  - Workspace files — Shared configs
+- Found a contradiction → **Fix it within scope**, never cross boundaries
+- Found an outdated reference → **Delete or update within scope**
 
 **Step 4 — Verify & Report**
-- Confirm all files are consistent, no contradictions remain
-- Report to the user:
+- Confirm all files within scope are consistent, no contradictions remain
+- **List every modified file** — full transparency for the user
+- Report:
   - What was upgraded
   - What old content was deleted
   - What contradictions were found and resolved
-  - Confirmation that all files are now consistent
+  - Confirmation that all scoped files are now consistent
 
 ### Core Principles
-- **Self-learning mechanism**: Every upgrade makes the entire system cleaner and more consistent
-- **Proactive contradiction elimination**: Don't wait for the user to discover problems — find and fix them during upgrade
-- **Only the latest and best**: All project components, skills, and tools always stay at their newest version
-- **Instruction files updated first**: Any upgrade is immediately reflected in CLAUDE.md and related instruction files
+- **Project isolation**: Each project's Law Zero optimizes only itself, never affecting other projects
+- **Global files are sacred**: Only modify when user explicitly requests Global Mode
+- **Only the latest and best**: Project files always stay at their newest version
+- **Transparent changes**: Every report must include a complete file modification list
 
 ---
 
@@ -64,7 +85,7 @@ A dynamic, file-based knowledge system that captures lessons learned and prevent
 
 ### Lesson Database Location
 ```
-.claude/lessons/*.json    ← Each JSON file is one category
+.claude/lessons/*.json    <- Each JSON file is one category
 ```
 
 ### Three Iron Rules
@@ -96,14 +117,14 @@ File name = category name. No registration needed.
 ```
 
 ### When to Write a Lesson
-- Operation failed or produced unexpected results → Record cause and correct approach
-- Discovered a more efficient method → Record comparison (old vs. new)
-- User corrected a mistake → Record the user's correct approach
-- Solved a tricky problem → Record the diagnostic process and solution
+- Operation failed or produced unexpected results -> Record cause and correct approach
+- Discovered a more efficient method -> Record comparison (old vs. new)
+- User corrected a mistake -> Record the user's correct approach
+- Solved a tricky problem -> Record the diagnostic process and solution
 
 ### Pre-Operation Lesson Check Flow
 1. Determine the type of operation about to be executed
-2. Read the corresponding lesson file (e.g., git operation → `git.json`)
+2. Read the corresponding lesson file (e.g., git operation -> `git.json`)
 3. If unsure which category, search all files' `rule` fields by keyword
 4. Adjust the execution plan based on lessons found
 
@@ -128,5 +149,5 @@ File name = category name. No registration needed.
 
 ### Verification Rules
 <!-- Define how to verify operations in your project -->
-- After [operation type] → [verification method]
-- After [operation type] → [verification method]
+- After [operation type] -> [verification method]
+- After [operation type] -> [verification method]

@@ -1,85 +1,95 @@
-# Example: Law Zero in Action
+# Example: Law Zero v2 in Action
 
-## Scenario: Upgrading a WeChat Automation Script
+## Scenario 1: The Bug That Inspired v2.0
 
-You have a WeChat automation script that used AppleScript + screencapture for sending messages. You've just rewritten it to use the macOS Accessibility API instead.
+### Background
+You have two projects sharing the same tool (Page Agent):
+- **XHS (Xiaohongshu) auto-reply** — Uses Page Agent via CDP for notification scraping
+- **WeChat automation** — Uses Page Agent via Accessibility API for message sending
 
-### Without Law Zero
+### What Happened with v1.0 (Global Mode Only)
 
-You update the script and move on. But:
+Running Law Zero on the XHS project after upgrading from Playwright to raw CDP:
 
-- Your `CLAUDE.md` still has the old AppleScript template (130 lines of outdated code)
-- Your `SKILL.md` still says "use screencapture to verify messages"
-- Your `lessons/wechat.json` still has a lesson about "Chinese text must use clipboard with AppleScript keystroke"
-- Your `memory/wechat-automation.md` still references the old script name
-- A teammate's `workspace/TOOLS.md` still lists the old command
-
-**Result**: Claude Code randomly uses the old method 40% of the time, causing failures. You spend hours debugging "why does it keep using the old script?"
-
-### With Law Zero
-
-After updating the script, Law Zero automatically triggers:
-
-**Step 1** — The new Accessibility API script is deployed. Done.
-
-**Step 2** — Delete old:
 ```
-Deleted: CLAUDE.md lines 200-330 (old AppleScript WeChat template)
-Deleted: lessons/wechat.json entry about "AppleScript keystroke for Chinese"
-Updated: SKILL.md "verification" section (removed screencapture, added API JSON check)
+Step 3 — Global scan found contradictions:
+  Modified: CLAUDE.md      — Updated Page Agent section with CDP limitations
+  Modified: lessons/web.json — Added Playwright CDP incompatibility lesson
+  Modified: MEMORY.md      — Updated XHS description to v3
 ```
 
-**Step 3** — Global scan found 3 more issues:
+These changes were correct for XHS, but `CLAUDE.md` is shared by ALL projects. The Page Agent section now had warnings that weren't relevant to WeChat (which uses Accessibility API, not CDP).
+
+**Next day**: WeChat `send-file` to "File Transfer Assistant" went to the wrong person. Investigation showed the navigation code was fine — but the broader system behavior had shifted due to global config changes.
+
+### What Happens with v2.0 (Project Mode)
+
+Same upgrade, but now Law Zero defaults to Project Mode:
+
 ```
-Fixed: memory/wechat-automation.md — still referenced old script name
-Fixed: workspace/TOOLS.md — still listed old command
-Fixed: lessons/general.json — had "use screencapture to verify" (conflicts with new API approach)
+Step 3 — Project-scoped scan (XHS project only):
+  Modified: skills/xiaohongshu-ops/SKILL.md  — Updated v2→v3, architecture section
+  Modified: scripts/xhs-auto-reply.js         — Rewritten to native CDP
+  Modified: scripts/xhs-autoreply-cron.sh      — Added auto-start, network check
+  NOT modified: CLAUDE.md                      — Read-only in project mode ✓
+  NOT modified: MEMORY.md                      — Read-only in project mode ✓
+  NOT modified: lessons/web.json               — Read-only in project mode ✓
 ```
 
-**Step 4** — Report:
-```
-Upgrade complete: WeChat automation AppleScript → Accessibility API
-- Deleted: 130 lines of old templates from CLAUDE.md
-- Updated: 3 lesson entries
-- Fixed: 3 contradictions across memory and workspace files
-- All 8 scanned files now consistent
-```
-
-**Result**: Claude Code uses the new API method 100% of the time. Zero confusion.
+**Result**: XHS project fully upgraded. WeChat project completely untouched. No cross-contamination.
 
 ---
 
-## Scenario: Adding a New Tool to Your Workflow
+## Scenario 2: WeChat Safety Fix (Project Mode)
 
-You've just discovered that Page Agent (CDP + semantic operations) is better than raw Playwright for logged-in page interactions.
+Upgrading WeChat automation from v3.4 to v3.5 (safety fix for wrong-recipient bug):
 
-### Law Zero Protocol
+**Project Mode scan** finds 8 issues within WeChat project files:
 
-**Step 1** — Add Page Agent documentation to your `CLAUDE.md`
-
-**Step 2** — Update the tool priority table:
-```diff
-- | Page interaction | Playwright | Click buttons, fill forms |
-+ | Page interaction (public) | Playwright headless | Search, data extraction |
-+ | Page interaction (logged-in) | Page Agent (CDP) | Click buttons, fill forms |
 ```
+Step 2 — Delete old:
+  Updated: SKILL.md header v3.1.1 → v3.5
+  Updated: SKILL.md "send" description — removed "AXValue priority" (outdated since v3.2)
 
-**Step 3** — Scan finds:
+Step 3 — Consistency scan (project files only):
+  Fixed: SKILL.md missing v3.5 safety feature (navigate failure → abort send)
+  Fixed: SKILL.md missing v3.4 pinyin matching docs
+  Fixed: SKILL.md missing "known issues" table
+  Fixed: lessons/wechat.json "4-level nav" → "5-level nav" (v3.4 added level 5)
+  Added: lessons/wechat.json — "send must check navigate return value"
+  Added: lessons/wechat.json — "WeChat 0-window recovery with open -a"
+
+Step 4 — Report:
+  Files modified (3): SKILL.md, lessons/wechat.json, wechat-ax.py
+  Files NOT modified: CLAUDE.md, MEMORY.md (read-only in project mode)
+  All WeChat project files now consistent at v3.5
 ```
-Conflict: lessons/web.json says "use Playwright connectOverCDP for logged-in pages"
-  → Updated to: "use Page Agent for logged-in pages, Playwright for public sites"
-
-Conflict: memory/operational-lessons.md has Playwright CDP code example
-  → Deleted (Page Agent replaces this use case)
-
-Outdated: SKILL.md still says "Playwright is the only browser automation tool"
-  → Updated to include Page Agent
-```
-
-**Step 4** — Everything consistent.
 
 ---
 
-## Key Takeaway
+## Scenario 3: When to Use Global Mode
 
-Law Zero doesn't just update one file — it updates the **entire knowledge graph** of your Claude Code configuration. This is what makes it fundamentally different from just "writing good documentation."
+You're reorganizing your entire tool stack — replacing Playwright with a new browser automation framework across ALL projects.
+
+```
+User: "Run global Law Zero — replacing Playwright with BrowserX everywhere"
+
+Step 3 — Global scan:
+  Modified: CLAUDE.md           — Tool priority table updated
+  Modified: MEMORY.md           — All project descriptions updated
+  Modified: lessons/web.json    — Playwright lessons archived, BrowserX lessons added
+  Modified: skills/page-agent/SKILL.md    — Rewritten for BrowserX
+  Modified: skills/xiaohongshu-ops/SKILL.md — Updated automation references
+  Modified: skills/wechat/SKILL.md         — Updated (if applicable)
+```
+
+Global Mode is appropriate here because the change genuinely affects every project.
+
+---
+
+## Key Takeaways
+
+1. **Default to Project Mode** — It's safer. Most upgrades only affect one project.
+2. **Use Global Mode intentionally** — Only for changes that truly affect everything.
+3. **The file list in Step 4 is mandatory** — You always know exactly what changed.
+4. **Read-only doesn't mean ignore** — Project Mode reads global files to check for contradictions, but fixes them in project files instead of modifying global configs.
