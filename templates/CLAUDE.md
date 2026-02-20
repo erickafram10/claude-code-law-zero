@@ -1,8 +1,8 @@
 # Project Instructions
 
 <!--
-  LAW ZERO v2.0 TEMPLATE — Drop this into your project's CLAUDE.md
-  Key change from v1: Project-scoped scanning by default.
+  LAW ZERO v3.0 TEMPLATE — Drop this into your project's CLAUDE.md
+  Key changes from v2: Safe upgrades with .deprecated/ rollback.
   Customize the sections below for your specific project.
 -->
 
@@ -35,16 +35,18 @@
 When ANY feature, skill, script, project, document, or configuration is upgraded or updated,
 **immediately and automatically execute the following complete protocol:**
 
-### Execution Protocol (4 Steps — All Required)
+### Execution Protocol (5 Steps — All Required)
 
 **Step 1 — Implement the Upgrade**
 - Complete the new version's deployment, modification, or replacement
 
-**Step 2 — Delete the Old (Upgrade = Delete)**
-- **Completely remove** all replaced old-version content (within scope only)
-- Absolutely no coexistence of old and new versions
-- **Project Mode**: Only clean files within the project directory
-- **Global Mode**: Can clean all files including CLAUDE.md, memory, lessons
+**Step 2 — Deprecate the Old (Don't Delete!)**
+- Move replaced files to `.deprecated/` directory (within scope), **NOT** delete them
+  - **Project Mode**: `project-directory/.deprecated/YYYY-MM-DD/`
+  - **Global Mode**: `~/.deprecated/YYYY-MM-DD/`
+- Preserve directory structure inside `.deprecated/` for easy rollback
+- Mark deprecated items in docs/code: "Deprecated — replaced by XX"
+- **Why**: The new version hasn't been battle-tested. The old version is your safety net.
 
 **Step 3 — Consistency Scan**
 - **Project Mode** scan scope (only modifies project files):
@@ -59,21 +61,31 @@ When ANY feature, skill, script, project, document, or configuration is upgraded
   - All `SKILL.md` files — Skill documentation
   - Workspace files — Shared configs
 - Found a contradiction → **Fix it within scope**, never cross boundaries
-- Found an outdated reference → **Delete or update within scope**
+- Found an outdated reference → **Update within scope**
 
-**Step 4 — Verify & Report**
+**Step 4 — Verify & Observation Period**
 - Confirm all files within scope are consistent, no contradictions remain
 - **List every modified file** — full transparency for the user
 - Report:
   - What was upgraded
-  - What old content was deleted
+  - What old content was deprecated (moved to `.deprecated/`)
   - What contradictions were found and resolved
   - Confirmation that all scoped files are now consistent
+- **Observation period**: New version must run in production for 24-48 hours
+  - During observation: if the new version has issues → quick rollback from `.deprecated/`
+  - During observation: do NOT clean up `.deprecated/`
+
+**Step 5 — Clean Deprecated Files (After Observation)**
+- After 24-48 hours of stable production use
+- Confirm no other scripts/projects still reference the old version
+- Only then permanently delete the `.deprecated/` files
+- If user explicitly says "skip observation, delete now" → may skip observation period
 
 ### Core Principles
 - **Project isolation**: Each project's Law Zero optimizes only itself, never affecting other projects
 - **Global files are sacred**: Only modify when user explicitly requests Global Mode
-- **Only the latest and best**: Project files always stay at their newest version
+- **Safe upgrades**: Deprecate → Observe → Clean. Never make irreversible changes prematurely
+- **Quick rollback**: `.deprecated/` is your safety net during the observation period
 - **Transparent changes**: Every report must include a complete file modification list
 
 ---
